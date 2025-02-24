@@ -1,19 +1,26 @@
 ---
-title: "Documentación en R"
-subtitle: Material adaptado de Pablo Tiscornia
-date: ''
+title: 'Encuentro 5: Documentación en RMarkdown'
+author: "Francisco Favieri | Beatriz Soria"
+subtitle: 'Escuela de Verano: Taller de Introducción al procesamiento y análisis de
+  datos sobre mercado de trabajo con R'
 output:
-  html_document:
+  pdf_document:
     toc: true
-    df_print: paged
   html_notebook:
     toc: true
     toc_float: true
+  html_document:
+    toc: true
+    df_print: paged
+  word_document:
+    toc: true
 ---
+
+Material adaptado del trabajo realizado por Pablo Tiscornia
 
 ### R Markdown: Introducción
 
-Los archivos R Markdown nos permiten combinar código, resultados y texto. El objetivo de esta clase es aprender a trabajar bajo dicho entorno para facilitar tres aplicaciones:
+Los archivos R Markdown nos permiten combinar código, resultados y texto. El objetivo de este encuentro es aprender a trabajar bajo dicho entorno para facilitar tres aplicaciones:
 
 -   Documentar el trabajo que realizamos, incluyendo comentarios sobre los procedimientos.
 -   Compartir código y resultados con personas que también trabajan en R.
@@ -21,15 +28,17 @@ Los archivos R Markdown nos permiten combinar código, resultados y texto. El ob
 
 Las presentes notas de clase están basadas en el libro [R4DS](https://es.r4ds.hadley.nz/r-markdown.html) y las [cheatsheets](https://www.rstudio.com/resources/cheatsheets/). También se recomienda el libro [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/).
 
+------------------------------------------------------------------------
+
 ### Requisitos
 
-Necesitamos instalar y cargar el paquete **rmarkdown**. Por lo general no hace falta hacerlo porque RStudio realiza esto automáticamente cuando es necesario.
+Necesitamos instalar y cargar el paquete **rmarkdown**. Por lo general, no hace falta hacerlo porque RStudio realiza esto automáticamente.
 
 ### Markdown básico
 
 Se trata de un archivo de extensión **.Rmd**. Contiene en su estructura tres tipos importantes de contenido:
 
--   Un encabezado YAML ("Yet another markup lenguage") rodeado de - - -
+-   Un encabezado YAML (*"Yet another markup lenguage"*) rodeado de - - -
 
 ```         
 ---
@@ -59,11 +68,15 @@ Este proceso es gestionado por el paquete knitr y ejecuta el código R dentro de
 
 🔹 Para compilar manualmente un archivo .Rmd en RStudio, hacer clic en el botón "Knit" o usar el comando. **"Knit"** significa **"tejer"** el documento combinando texto, código y resultados en un formato legible.
 
+![](img/knit.png)
+
 ### Formateo de texto
 
 La prosa en los archivos .Rmd está escrita en Markdown, una colección simple de convenciones para dar formato a archivos de texto plano. Markdown está diseñado para ser fácil de leer y fácil de escribir, siendo también muy fácil de aprender. Del *Cheatsheet*:
 
 ![](img/Selection_001.png)
+
+------------------------------------------------------------------------
 
 ### Bloques de código
 
@@ -98,34 +111,6 @@ Las que más utilizamos nosotros son:
 -   `error = TRUE` causa que el render continúe incluso si el código devuelve un error. Esto es algo que raramente querés incluir en la version final de tu reporte.
 
 Contamos con algunas de estas opciones en el menú de **Configuración** en la parte superior-derecha del *Chunk* de código.
-
-### Tablas
-
-Por defecto, las tablas se imprimen tal como salen como en la consola. Si queremos que los datos tengan un formato adicional podemos usar la función `knitr::kable()`. Aún más, recomendamos mirar los paquetes [kableExtra](https://haozhu233.github.io/kableExtra/awesome_table_in_html.html#grouped_columns__rows) y [formattable](https://www.displayr.com/formattable/).
-
-Para una mayor personalización, se pueden considerar también los paquetes `xtable`, `stargazer`, `pander`, `tables`, y `ascii`. Cada uno provee un set de herramientas para generar tablas con formato a partir código de R.
-
-### Opciones globales
-
-Algunas de las opciones default que tienen los bloques de código pueden no ajustarse a tus necesidades. Podemos setear cambios incluyendo `knitr::opts_chunk$set()` en un bloque de código. Por ejemplo:
-
-`knitr::opts_chunk$set(echo = FALSE)`
-
-Ocultará el código por defecto, así que sólo mostrará los bloques que deliberadamente elegimos mostrar con `echo = TRUE`.
-
-### Código en la línea
-
-Otra forma de incluir código R en un documento R Markdown es insertarlo directamente en el texto, encerrando entre ``` `` ``` `"r codigo"`. Esto puede ser muy útil si queremos mencionar propiedades o atributos de los datos o resultados en el texto.
-
-Cuando insertamos números en el texto, `format()` nos va a ser de mucha ayuda. Esto permite establecer el número de digitos para que no imprimas con un grado rídiculo de precisión, y una big.mark para hacer que los números sean mas fáciles de leer. Por ejemplo, en una función de ayuda:
-
-```{r echo=TRUE, message=FALSE, warning=FALSE}
-formato <- function(x){
-  format(x, digits = 2, big.mark = ".", decimal.mark = ",")
-  }
-formato(3452345)
-formato(.12358124331)
-```
 
 ### Formatos
 
@@ -185,12 +170,16 @@ Un notebook, `html_notebook` ("cuaderno" en español), es una variación de un `
 
 Desde RStudio tenemos la posibilidad de publicar nuestros Markdown en [RPubs](https://rpubs.com/) de forma gratuita, desde el botón **Publish document**. Todo lo que subamos a nuestra cuenta de RPubs será público.
 
-### FlexDashboard
+------------------------------------------------------------------------
 
-Los dashboards ("tableros de control" en español) son una forma útil de comunicar grandes cantidades de información de forma visual y rápida. Flexdashboard hace que sea particularmente fácil crear dashboards usando R Markdown y proporciona una convención de cómo los encabezados afectan el diseño:
+# Práctica
 
--   Cada encabezado de Nivel 1 (\#) comienza una nueva página en el dashboard.
--   Cada encabezado de Nivel 2 (\##) comienza una nueva columna.
--   Cada encabezado de Nivel 3 (\###) comienza una nueva fila.
+1)  Crear un informe que contenga:
 
-Flexdashboard también proporciona herramientas simples para crear barras laterales, tabuladores, cuadros de valores y medidores. Podemos obtener más información (en inglés) acerca de Flexdashboard en <http://rmarkdown.rstudio.com/flexdashboard/>.
+-   **En TEXTO:**
+    -   Una estructura mínima de texto (Título, consigna, descripción de las tareas realizadas y muy breve conclusión)
+-   **En CÓDIGO:**
+    -   Carga de librerías (no mostrar el código en el reporte)
+    -   Importación de datos (mostrar el código en el reporte)
+    -   Algún procesamiento mínimo como filtrar, seleccionar, generar un tabulado, etc. (mostrar el código y el resultado en el reporte)
+-   *Extra*: Incluir un gráfico

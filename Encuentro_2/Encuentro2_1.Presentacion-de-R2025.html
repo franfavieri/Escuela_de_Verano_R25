@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Encuentro 2: Introducción a lenguaje de programación R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R - Febrero 2025 Francisco Favieri | Beatriz Soria" />
+    <script src="libs/header-attrs-2.28/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Encuentro 2: Introducción a lenguaje de programación R
+]
+.author[
+### Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R - Febrero 2025
+Francisco Favieri | Beatriz Soria
+]
+
+---
+
+
+
+
+class: middle, center
+
+# ¿Qué es [R](https://cran.r-project.org/)?
+Material adaptado del trabajo realizado por Pablo Tiscornia y Guido Weksler
+
+---
+class: inverse, center
+
+# R es un software abierto
+
+####✅ Gratuito – Sin costos de licencia.
+####✅ Personalizable – Modificable según necesidades.
+####✅ Comunidad Activa – Desarrollo colaborativo.
+####✅ Transparente – Código accesible y auditable.
+####✅ Evolución Rápida – Innovación constante.
+####📊 Ideal para estadística, ciencia de datos y análisis numérico.
+
+
+---
+class: inverse, center
+
+# R es...
+
+Abierto
+
+&lt;img src="img/r_software_abierto.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+class: inverse
+
+# R es...
+
+
+###- ✅Un lenguaje para el procesamiento y análisis de datos.
+  
+###- 🖥️️ El lenguaje troncal es conocido como "R base".
+  
+###- 📦 Sobre esa base se desarrollan un conjunto de funciones y paquetes que incluso pueden cambiar ciertas formas de programar el mismo lenguaje.
+
+###- 🔑 Importante retener -por ahora- la idea de lenguaje: PAQUETES Y FUNCIONES.
+  
+  
+---
+class: middle, center, inverse
+
+background-image: url(img/R1.PNG)
+background-size: contain
+
+---
+
+class: middle, center, inverse
+
+background-image: url(img/R2.PNG)
+background-size: contain
+
+---
+class: middle, center, inverse
+
+background-image: url(img/R3.PNG)
+background-size: contain
+
+---
+class: middle, center, inverse
+
+background-image: url(img/R4.PNG)
+background-size: contain
+
+---
+class: middle, center, inverse
+
+background-image: url(img/R5.PNG)
+background-size: contain
+  
+---
+
+class: middle, center
+
+# ¿Por qué R?
+
+---
+class: inverse
+
+## ¿Por qué R? 🚀 **Ventajas de R en el análisis de datos**  
+
+#### - 🔄 **Automatización:** Permite **sistematizar tareas repetitivas** y optimizar flujos de trabajo.  
+#### - 🛠️ **Personalización:** Posibilidad de **crear funciones a medida** para adaptarse a necesidades específicas.  
+#### - 📌 **Reproductibilidad:** Garantiza la **reproducibilidad y estandarización** de procesos.  
+#### - ⚡ **Eficiencia:** Destina más memoria al funcionamiento que a la plataforma (**vs SPSS o SAS**).  
+
+
+---
+class: inverse
+
+## ¿Por qué R?
+
+### - Su comunidad potencia la capacidad de consulta y respuesta.
+
+
+&lt;img src="img/r_ayuda.png" width="70%" style="display: block; margin: auto;" /&gt;
+📖  [RladiesBA](https://rladiesba.netlify.app/)
+---
+class: inverse
+
+## ¿Por qué R?
+
+###- Consultas sobre los programas estadísticos en Google
+  
+&lt;img src="img/google_trend.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+class: inverse
+
+## R vs otros programas de licencia paga
+
+- Es gratuito (todas sus versiones, todas sus herramientas, todo el tiempo).
+
+--
+
+- Nada de "crackear" el programa, buscarlo en la web (¿¡Eso es un virus!?) o esperar a ese pendrive salvador con el instalador.
+
+--
+  
+- Con R se generó una comunidad dedicada a facilitar el acceso al lenguaje y, también, a su desarrollo (los "mortales" podemos crear herramientas en función de los problemas con los que nos enfrentamos).
+
+--
+  
+- Es más fácil ayudar y que te ayuden (foros, comunidades, tutoriales).
+
+
+--
+  
+- R te demanda mayor conocimiento sobre tus datos, tus procesos y también sobre estadística.
+
+---
+
+class: inverse, middle
+## Rstudio 🖥
+###- 🌎 **Popularidad:** Es el **entorno más utilizado** para programar en R.  
+###- 💰 Es una empresa que no cobra por el uso del programa, solo por soporte técnico.  
+###- 🔄 **Versatilidad:** También funciona como un **traductor de R** a diferentes lenguajes, permitiendo:  
+  ####- 📊 **Trabajar el dato**  
+  ####- 📈 **Visualizar resultados**  
+  ####- 📝 **Generar reportes** en múltiples formatos: `.doc`, `.xlsx`, `.pdf`, **presentaciones**, **dashboards**, y más.  
+
+---
+class: inverse, center, middle
+
+.pull-left[
+
+## R:
+
+&lt;br&gt;
+
+&lt;img src="img/r_software_abierto.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+## RStudio:
+
+&lt;br&gt;
+
+&lt;img src="img/r_panel_rstudio.jpg" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+##🖥️ Diferencia entre RStudio y R Base
+
+###🔹 R Base es el lenguaje de programación estadístico en sí mismo. 
+
+###📜 Un lenguaje de código abierto especializado en estadística y ciencia de datos.
+###🖥️ Un entorno básico llamado R GUI (muy simple, solo una consola de comandos).
+### 📦 Paquetes y funciones fundamentales para cálculos, modelado estadístico y gráficos.
+
+---
+###🔹 RStudio es un entorno de desarrollo integrado (IDE) que facilita el trabajo con R Base. 
+
+####✅ Ventajas de usar RStudio sobre R Base:
+####🌟 Interfaz gráfica avanzada (más intuitiva que R GUI).
+####📂 Gestión de proyectos para organizar scripts, datos y gráficos.
+####📊 Vista en tiempo real de gráficos y datos sin necesidad de guardar archivos.
+####📜 Facilita la edición y ejecución de código con resaltado de sintaxis y autocompletado.
+####📈 Generación de reportes en Word, PDF, HTML, Dashboards con R Markdown y Shiny.
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

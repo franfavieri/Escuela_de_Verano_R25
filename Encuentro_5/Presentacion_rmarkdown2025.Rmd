@@ -1,6 +1,7 @@
 ---
-title: "Reportes con Rmarkdown"
+title: "Encuentro 5: Reportes con Rmarkdown"
 subtitle: "Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R"
+author:  "Francisco Favieri | Beatriz Soria"
 output:
   xaringan::moon_reader:
     self_contained: true
@@ -93,20 +94,18 @@ options(scipen = 999)
 
 ```
 
-Material adaptado del trabajo realizado por Pablo Tiscornia
 
----
 
 # Hoja de ruta
 
-## ✔️ ¿Qué es Rmarkdown (_spoiler: R + Mardown_)?
+Material adaptado del trabajo realizado por Pablo Tiscornia
 
-## ✔️ Conceptos básicos de Markdown (es un lenguaje)
+## ✔️ ¿Qué es Rmarkdown (R + Mardown)?
+
+## ✔️ Conceptos básicos de Markdown (Es un lenguaje)
 
 ## ✔️ YAML, chunks y texto
 *"Yet Another Markup Language"* se traduce como "Otro lenguaje de marcado más" o "Un lenguaje de marcado más".
-
-<br>
 
 Algunas referencias que inspiran este material:    
 
@@ -116,8 +115,8 @@ Algunas referencias que inspiran este material:
 
 
 ---
-# Flujo de Trabajo de las CSC
-La importancia de comunicar...
+# Flujo de Trabajo de las Ciencias Sociales Computacionales
+
 
 ```{r echo=FALSE, eval=TRUE, out.width='75%', fig.align='center'}
 knitr::include_graphics("img/circuito_del_dato_tidy.png")
@@ -136,7 +135,7 @@ class: inverse, center, middle
 ---
 # R + Markdown
 
-## Rmarkdown es un formato de Rstudio que permite combinar la **sintaxis de Markdown** para escritura de texto plano con la **sintáxis de R** para el procesamiento de datos.
+## Rmarkdown es un formato de Rstudio que permite combinar la **sintaxis de Markdown** para escritura de texto plano con la **sintaxis de R** para el procesamiento de datos.
 
 ```{r echo=FALSE, eval=TRUE, out.width='65%', fig.align='center'}
 knitr::include_graphics("img/rmarkdown_proceso.png")
@@ -252,23 +251,22 @@ knitr::include_graphics("img/rmarkdown_salidas.png")
 ```
 
 ---
-El paquete xaringan en R se usa para crear presentaciones en formato HTML con un estilo profesional y flexible. Está basado en remark.js, un marco de presentaciones en JavaScript, y permite generar diapositivas directamente desde un archivo RMarkdown (.Rmd).
+###**Paquete xaringan** se usa para crear presentaciones en formato HTML con un estilo flexible. Está basado en remark.js, un marco de presentaciones en JavaScript y permite generar diapositivas directamente desde un archivo RMarkdown (.Rmd).
 
-bookdown: Para crear libros, informes y documentación
-bookdown permite escribir libros, informes y documentos extensos en R Markdown y exportarlos a PDF, HTML o EPUB.
+### **Paquete bookdown** permite escribir libros, informes y documentos extensos en R Markdown y exportarlos a PDF, HTML o EPUB.
 
-blogdown: Para crear blogs y sitios web con R Markdown
-blogdown permite crear blogs y páginas web estáticas 
+### **Paquete blogdown**: Para crear blogs y sitios web con R Markdown.
+
 ---
-# ¿Cómo generar un R Markdown? Abrir nuevo archivo
+# ¿Cómo generar un R Markdown? 
 
-
+### Abrir nuevo archivo
 ```{r echo=FALSE, out.width = '85%', fig.align = 'center'}
 knitr::include_graphics("img/rmarkdown_nuevo_archivo.png")
 ```
 
 ---
-# Rmarkdown - Componentes (YAML, chunk, texto)
+# Componentes (YAML, chunk, texto)
 
 
 ```{r echo=FALSE, out.width = '80%', fig.align = 'center'}
@@ -405,37 +403,6 @@ class: inverse, middle, center
 knitr::include_graphics("img/codigo_en_texto.png")
 ```
 
----
-class: inverse, middle, center
-
-
-# _PRÁCTICA_
-
-
-<html>
-  <div style='float:left'></div>
-  <hr color='#EB811B' size=1px width=1125px>
-</html>
- 
-
-
----
-class: inverse, middle
-
-# Práctica
-
-
-1) Crear un informe que contenga:
-
-- **En TEXTO:**
-  - Una estructura mínima de texto (Título, consigna, descripción de las tareas realizadas y muy breve conclusión)
-
-- **En CÓDIGO:**
-  - Carga de librerías (no mostrar el código en el reporte)
-  - Importación de datos (mostrar el código en el reporte)
-  - Algún procesamiento mínimo como filtrar, seleccionar, generar un tabulado, etc. (mostrar el código y el resultado en el reporte)
-
-- _Extra_: Incluir un gráfico
 
 ---
 # RECURSOS

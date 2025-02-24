@@ -1,0 +1,124 @@
+---
+title: "Soluciones -Ejercitación sobre R"
+author:  "Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R - Febrero 2025. 
+
+Francisco Favieri | Beatriz Soria"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+Este documento contiene ejercicios prácticos para reforzar los conceptos básicos de R abordados durante el encuentro.
+
+## Ejercicio 1: Creación de Objetos
+1. Crear un objeto llamado `objeto` que contenga el número 10.
+2. Crear un vector `vector_1` con los valores 2, 4, 6, 8, 10.
+3. Convertir `vector_1` en un factor y guárdalo en un nuevo objeto `vector_factor`.
+4. ¿Cuál es la clase de `vector_factor`?
+
+
+```{r}
+objeto <- 10
+vector_1 <- c(2, 4, 6, 8, 10)
+vector_factor <- factor(vector_1)
+class(vector_factor)  # Verificamos la clase del objeto
+```
+
+## Ejercicio 2: Manipulación de Vectores
+1. Crear un vector llamado `numeros` con los valores del 1 al 10.
+2. Extraer el tercer elemento del vector `numeros`.
+3. Sumar 5 a cada elemento del vector `numeros`.
+
+
+
+```{r}
+numeros <- 1:10
+tercer_elemento <- numeros[3]
+suma_cinco <- numeros + 5
+
+
+# Mostramos los resultados
+tercer_elemento
+suma_cinco
+multiplicacion_pares
+```
+
+## Ejercicio 3: Data Frames
+1. Crear un data frame con las siguientes columnas:
+   - `Nombre`: "Ana", "Juan", "Pedro", "Javier"
+   - `Edad`: 25, 30, 22, 28
+   - `Ciudad`: "Mendoza", "San Juan", "Rosario", "Mendoza"
+2. Mostrar solo los nombres del data frame.
+3. Filtrar las filas donde la edad sea mayor a 25.
+4. Agregar una nueva columna llamada `Salario` con valores 500000, 550000, 480000, 600000.
+
+
+```{r}
+df <- data.frame(
+  Nombre = c("Ana", "Juan", "Pedro", "Javier"),
+  Edad = c(25, 30, 22, 28),
+  Ciudad = c( "Mendoza", "San Juan", "Rosario", "Mendoza")
+)
+
+print(df)  # Para ver el data frame
+
+# Mostrar solo los nombres
+df$Nombre
+
+# Filtrar filas donde la edad sea mayor a 25
+filtro_edad <- df[df$Edad > 25, ] 
+#df[df$Edad > 25, ].  df[ , ] es la forma general de seleccionar filas y columnas en un data.frame en R. df[df$Edad > 25, ] está diciendo: "Selecciona todas las filas donde la condición df$Edad > 25 sea TRUE" y todas las columnas (por la coma , sin especificar columnas).
+
+# Agregar columna de salario
+df$Salario <- c(500000, 550000, 480000, 600000)
+
+# Mostrar los resultados
+df
+filtro_edad
+```
+
+## Ejercicio 4: Funciones en R
+1. Calcular la media de los números del 1 al 100.
+2. Usar `paste()` para combinar "Hola" y "Mundo" en una sola cadena de texto.
+
+```{r}
+# Media de los números del 1 al 100
+media_1_100 <- mean(1:100)
+
+# Concatenación de "Hola" y "Mundo"
+texto <- paste("Hola", "Mundo")
+
+# Mostrar resultados
+media_1_100
+texto
+```
+
+## Ejercicio 5: Lectura y escritura de Archivos
+1. Crear un data frame con datos ficticios y guárdalo en un archivo CSV.
+2. Leer el archivo CSV que creaste en el paso anterior.
+3. Mostrar las primeras 5 filas del data frame leído.
+
+```{r}
+# Crear data frame
+data_ejemplo <- data.frame(
+  ID = 1:5,
+  Nombre = c("Carlos", "Elena", "Miguel", "Sofía", "Luis"),
+  Edad = c(34, 29, 41, 25, 38)
+)
+
+# Guardar en un archivo CSV
+write.csv(data_ejemplo, "datos.csv", row.names = FALSE)
+
+# Leer el archivo CSV
+data_leida <- read.csv("datos.csv")
+
+# Mostrar las primeras 5 filas
+head(data_leida, 5)
+```

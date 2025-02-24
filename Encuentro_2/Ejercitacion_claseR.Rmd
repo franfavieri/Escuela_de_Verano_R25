@@ -1,0 +1,69 @@
+---
+title: "Ejercitación sobre R"
+author:  "Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R - Febrero 2025. 
+
+Francisco Favieri | Beatriz Soria"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción
+Este documento contiene ejercicios prácticos para reforzar los conceptos básicos de R abordados durante el encuentro.
+
+## Ejercicio 1: Creación de Objetos
+1. Crear un objeto llamado `objeto` que contenga el número 10.
+2. Crear un vector `vector_1` con los valores 2, 4, 6, 8, 10.
+3. Convertir `vector_1` en un factor y guárdalo en un nuevo objeto `vector_factor`.
+4. ¿Cuál es la clase de `vector_factor`?
+
+```{r}
+
+```
+
+## Ejercicio 2: Manipulación de Vectores
+1. Crear un vector llamado `numeros` con los valores del 1 al 10.
+2. Extraer el tercer elemento del vector `numeros`.
+3. Sumar 5 a cada elemento del vector `numeros`.
+
+
+```{r}
+
+
+
+```
+
+## Ejercicio 3: Data Frames
+1. Crear un data frame con las siguientes columnas:
+   - `Nombre`: "Ana", "Juan", "Pedro", "Javier"
+   - `Edad`: 25, 30, 22, 28
+   - `Ciudad`: "Mendoza", "San Juan", "Rosario", "Mendoza"
+2. Mostrar solo los nombres del data frame.
+3. Filtrar las filas donde la edad sea mayor a 25.
+4. Agregar una nueva columna llamada `Salario` con valores 500000, 550000, 480000, 600000.
+
+```{r}
+
+
+```
+
+## Ejercicio 4: Funciones en R
+1. Calcular la media de los números del 1 al 100.
+2. Usar `paste()` para combinar "Hola" y "Mundo" en una sola cadena de texto.
+
+```{r}
+
+```
+
+## Ejercicio 5: Lectura y escritura de Archivos
+1. Crear un data frame con datos ficticios y guárdalo en un archivo CSV.
+2. Leer el archivo CSV que creaste en el paso anterior.
+3. Mostrar las primeras 5 filas del data frame leído.
+
+```{r}
+

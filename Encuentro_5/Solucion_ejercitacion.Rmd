@@ -1,0 +1,91 @@
+---
+title: "Solucipon con RMarkdown"
+author: "Tu Nombre"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+    fig_width: 7
+    fig_height: 5
+---
+
+# 📌 **Consigna**
+Este informe presenta la resolución de la práctica solicitada. Se realiza la carga de datos, una exploración básica y se genera un gráfico representativo.
+
+---
+
+# 📂 **Carga de Datos**
+
+```{r setup, include=FALSE}
+# Cargar librerías necesarias (oculto en el reporte)
+library(dplyr)
+library(ggplot2)
+library(readr)
+```
+
+📥 **Importación de datos**
+
+```{r cargar_datos, eval=FALSE, include=FALSE}
+# Importar datos
+datos <- read.csv("datos.csv")
+
+# Mostrar las primeras filas
+head(datos)
+```
+
+---
+
+# 🔍 **Procesamiento y Análisis**
+Se realiza una transformación de los datos, filtrando registros específicos y generando un resumen tabulado.
+
+```{r procesamiento_datos, eval=FALSE, include=FALSE}
+# Filtrar datos (ejemplo: solo registros con una variable mayor a un umbral)
+datos_filtrados <- datos %>%
+  filter(Variable1 > 50) %>%
+  select(Variable1, Variable2)
+
+# Mostrar los primeros datos filtrados
+head(datos_filtrados)
+```
+
+📌 **Resumen estadístico de la Variable1**
+
+```{r resumen_datos, eval=FALSE, include=FALSE}
+summary(datos$Variable1)
+```
+
+---
+
+# 📈 **Visualización de Datos**
+A continuación, se genera un gráfico de dispersión de **Variable1 vs Variable2**.
+
+```{r grafico_datos, eval=FALSE, include=FALSE}
+ggplot(datos, aes(x = Variable1, y = Variable2)) +
+  geom_point(color = "blue") +
+  labs(title = "Relación entre Variable1 y Variable2",
+       x = "Variable1",
+       y = "Variable2") +
+  theme_minimal()
+```
+
+---
+
+# 📊 **Gráfico de EPH sobre Gran Mendoza y Gran San Juan**
+Se muestra la comparación de tasas entre **Gran Mendoza** y **Gran San Juan** según datos de la Encuesta Permanente de Hogares (EPH).
+
+```{r grafico_eph, echo=TRUE}
+# Crear los datos de EPH
+
+```
+
+---
+
+# 📝 **Conclusión**
+Se realizó la importación y exploración inicial de los datos. Se aplicó un filtrado simple y se generó un gráfico de dispersión que muestra la relación entre **Variable1 y Variable2**.
+
+Además, se compararon las tasas de **Actividad, Empleo y Desocupación** entre **Gran Mendoza y Gran San Juan**, proporcionando una visión clara de las diferencias en ambos territorios.
+
+✅ **Informe generado con RMarkdown y RStudio.**  
+✅ **Los resultados permiten visualizar tendencias y patrones en los datos.**

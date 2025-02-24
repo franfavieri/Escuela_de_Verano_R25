@@ -15,7 +15,7 @@
  *    - xaringan wiki: https://github.com/yihui/xaringan/wiki
  *    - remarkjs wiki: https://github.com/gnab/remark/wiki
  *
- *  Version: 0.4.3
+ *  Version: 0.4.3.9000
  *
  * ------------------------------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,400i,700,700i&display=swap);
@@ -50,7 +50,7 @@
   --text-bold-color: #006747;
   --code-highlight-color: rgba(255,255,0,0.5);
   --inverse-text-color: #000000;
-  --inverse-background-color: #CFC493;
+  --inverse-background-color: #F5F5F5;
   --inverse-header-color: #000000;
   --inverse-link-color: #006747;
   --title-slide-background-color: #006747;
@@ -58,7 +58,7 @@
   --header-background-color: #006747;
   --header-background-text-color: #FFFFFF;
   --primary: #006747;
-  --secondary: #CFC493;
+  --secondary: #F5F5F5;
   --white: #FFFFFF;
   --black: #000000;
 }
@@ -177,7 +177,7 @@ img, video, iframe {
   max-width: 100%;
 }
 blockquote {
-  border-left: solid 5px #CFC49380;
+  border-left: solid 5px #F5F5F580;
   padding-left: 1em;
 }
 .remark-slide table {
@@ -194,7 +194,7 @@ th, td {
 .remark-slide table:not(.table-unshaded) thead,
 .remark-slide table:not(.table-unshaded) tfoot,
 .remark-slide table:not(.table-unshaded) tr:nth-child(even) {
-  background: #F5F3E9;
+  background: #FDFDFD;
 }
 table.dataTable tbody {
   background-color: var(--background-color);
@@ -204,7 +204,7 @@ table.dataTable.display tbody tr.odd {
   background-color: var(--background-color);
 }
 table.dataTable.display tbody tr.even {
-  background-color: #F5F3E9;
+  background-color: #FDFDFD;
 }
 table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   background-color: rgba(255, 255, 255, 0.5);

@@ -1,19 +1,29 @@
 ---
 title: "Encuentro 1: EPH"
+author:  "Escuela de Verano: Taller de Introducción al procesamiento y análisis de datos sobre mercado de trabajo con R - Febrero 2025 
+
+Francisco Favieri | Beatriz Soria"
 output:
   xaringan::moon_reader:
-    #css: ["default", "lucy", "lucy-fonts"]
     lib_dir: libs
-    nature:
-      highlightStyle: github
-      highlightLines: true
-      countIncrementalSlides: false
-  
+    css: xaringan-themer.css
+editor_options: 
+  chunk_output_type: console
 ---
+
+```{r xaringan-themer, include = FALSE}
+#devtools::install_github("gadenbuie/xaringanthemer")
+library(xaringanthemer)
+duo_accent(primary_color = "#006747", secondary_color = "#F5F5F5")
+```
+
+
+
 
 ```{r setup, include=FALSE}
 # Cargar paquetes necesarios
 library(ggplot2)
+library (tidyverse)
 library(dplyr)
 library (viridis)
 ```
@@ -27,10 +37,16 @@ class: inverse, middle, center
 
 class: inverse, middle, center
 
-# En base a esta encuesta se proporcionan regularmente, entre otros resultados, las tasas oficiales de empleo, desocupación, subocupación y pobreza.
+## En base a esta encuesta se proporcionan regularmente, entre otros resultados, las tasas oficiales de empleo, desocupación, subocupación y pobreza.
+
+![](img/logo.png)
+
 ---
+#Principales tasas del mercado de trabajo 
+###(TIII2024)
+![](img/tasas_Cuyo.png)
 
-
+---
 class: inverse, middle, center
 
 # Objetivos de la EPH
@@ -100,13 +116,16 @@ class: center, middle, inverse
 --
  
 - __Esquema__: centralización normativa (equipo central) - descentralización ejecutiva (equipos provinciales). 
+
 - __Dirección de Estadísticas e Investigaciones Económicas (DEIE)-Gobierno de Mendoza__
 [DEIE](https://deie.mendoza.gov.ar/#!/)
 - __Instituto de Investigaciones Económicas y Estadísticas (IPC) -Gobierno de San Juan__
 [IPC](https://web.sanjuan.gob.ar/iiee/)
 
+---
+  
 
---
+- __Concepto de aglomerado__: *dos  localidades  distintas,  pero  próximas  y  que  conforman  en  realidad  un  único  mercado  de  trabajo.*
 
 - __Cobertura o dominio de estimación__: Principales aglomerados urbanos.  Crecimiento progresivo desde la puntual hacia la continua.
 Hoy: 31 aglomerados urbanos (Todas las capitales de provincia + aquellos aglomerados con +100.000 habitantes).
@@ -114,10 +133,7 @@ Hoy: 31 aglomerados urbanos (Todas las capitales de provincia + aquellos aglomer
 - __Aglomerado Gran Mendoza__ (10)
 - __Aglomerado Gran San Juan__ (27)
 
---
 
-
-- __Concepto de aglomerado__: *dos  localidades  distintas,  pero  próximas  y  que  conforman  en  realidad  un  único  mercado  de  trabajo.*
 
 
 
@@ -145,7 +161,8 @@ Hoy: 31 aglomerados urbanos (Todas las capitales de provincia + aquellos aglomer
 
 class: center, middle
 
-# Distribución de la población urbana y rural (Mendoza - San Juan,  2010)
+# Distribución de la población urbana y rural 
+##(Mendoza - San Juan,  2010)
 
 ---
 
@@ -184,73 +201,68 @@ ggplot(datos_poblacion, aes(x = Provincia, y = Porcentaje, fill = Categoria)) +
 
 ```
 ---
-# La Muestra
+# La muestra
   
 --
 
-- La Encuesta Permanente de Hogares es una encuesta por muestreo: relevo a un "pequeño" (¿pequeño?) puñado de hogares que representan al conjunto del universo.
+- La EPH es una encuesta por muestreo. Esto significa que para conocer las diversas características del total de los hogares, se encuesta una pequeña fracción representativa de los mismos. 
   
 --
   
-    + Diseño Muestral: bietápica estratificada.
+    + **Diseño Muestral: bietápica estratificada.**
   
---
-  
-    + Tener en cuenta:
-  
---
-  
-      * La representatividad
-  
---
-    
-      * El margen de error
-  
---
-  
-      * Coeficientes de variación de los estimadores
-  
---
-      
-      * Límite superior/inferior de la estimación puntual
-    
---
 
-    + Esquema de rotación: 2-2-2 (la vivienda entra a la muestra durante dos trimestres consecutivos - descansa dos - vuelve a la muestra dos trimestres consecutivos)
+Los hogares son seleccionados de forma aleatoria en **dos etapas**:
+
+-En la primer etapa, dentro de cada aglomerado, se selecciona una cantidad de radios censales o subdivisiones de los mismos (áreas).
+-En la segunda etapa se listan todas las viviendas particulares de las áreas seleccionadas, para efectuar a partir de ese listado una selección aleatoria de viviendas. Los hogares que habitan esas viviendas son los hogares a encuestar.
+La cantidad de viviendas a seleccionar en cada área, es igual dentro de cada aglomerado.
+--
+    
 ---
 # Principales temáticas abordadas por la EPH
   
 --
 
-<br>
-  
-- Características demográficas básicas
+###- Características sociodemográficas básicas
   
 --
    
-- Características ocupacionales
+###- Características ocupacionales
   
 --
   
-- Características migratorias
+###- Características migratorias
   
 --
   
-- Características habitacionales
+###- Características habitacionales
   
 --
   
-- Características educacionales
+###- Características educacionales
   
 --
   
-- Características de ingreso
+###- Características de ingreso
    
 ---
 
 class: center, middle, inverse
 
 # Instrumento de medición
+
+
+
+![Cuestionario Individual](img/cuestionario_individual.jpg)
+
+
+
+
+
+
+
+
   
 ---
 
@@ -329,9 +341,6 @@ class: center, middle, inverse
 
 --
 
-<br>
-
-<br>
 
 - __Aplicación:__ Todas aquellas personas residentes del hogar, mayores de 10 años (niños y niñas en edad de ¿trabajar? o ¿estudiar? Argentina vs otros países). 
 
@@ -341,7 +350,7 @@ class: center, middle, inverse
 
 --
 
-- __El principal concepto que mide: Trabajo__: 
+- __El principal concepto que mide: trabajo__: 
 
     + Definición de la 19° Conferencia Internacional del Trabajo - OIT (CIET, 2013): "Todas las actividades desarrolladas en unidades económicas por personas de cualquier sexo con el fin de producir bienes y servicios para el consumo de terceros o autoconsumo".
     
@@ -352,7 +361,7 @@ class: center, middle, inverse
 ---
   
 
-# Cuestinario individual: Principales indicadores
+##Cuestinario individual: Principales indicadores
 
 --
 
@@ -364,25 +373,25 @@ class: center, middle, inverse
   
 --
   
-      * Ocupado/a (quienes se encuentran trabajando en la semana de referencia o no trabajando pero manteniendo un puesto de trabajo -suspensiones-)
+      * __Ocupado/a__ (quienes se encuentran trabajando en la semana de referencia o no trabajando pero manteniendo un puesto de trabajo -suspensiones-)
   
 --
   
-      * Desocupado/a (quienes no tienen trabajo, están disponibles para trabajar y buscan trabajo activamente en algún momento de los últimos 30 días)
+      * **Desocupado/a** (quienes no tienen trabajo, están disponibles para trabajar y buscan trabajo activamente en algún momento de los últimos 30 días)
   
 --
   
-      * Inactivo/a (quienes no se encuentran trabajando ni buscaron activamente trabajo en el período de referencia -últimos 30 días-)
+      * **Inactivo/a** (quienes no se encuentran trabajando ni buscaron activamente trabajo en el período de referencia -últimos 30 días-)
   
 --
   
-- __Población económicamente activa:__ Aquellas personas que tienen una ocupación o que sin tenerla la están buscando activamente 
--PEA = población ocupada + desocupada
+- __Población económicamente activa:__ Aquellas personas que tienen una ocupación o que sin tenerla la están buscando activamente -PEA = población ocupada + desocupada
   
 
 ---
 
-# Clasificadores utilizados en la EPH (Rama de actividad y Tarea / Ocupación)
+# Clasificadores utilizados en la EPH 
+###(Rama de actividad y Tarea/Ocupación)
   
 --
   
@@ -398,7 +407,7 @@ class: center, middle, inverse
 
 ---
 
-# Documentación de la Encuesta:
+# Documentación de la encuesta:
     
 - [Diseño de registro a agosto de 2019](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_registro_1t19.pdf)
   
@@ -412,7 +421,7 @@ class: center, middle, inverse
   
 - [Consideraciones sobre la revisión, evaluación y recuperación de la EPH. Nota metodológica actualizada para el uso de los datos del primer trimestre de 2019](https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/EPH_nota_metodologica_1_trim_2019.pdf)
 
-- [Informe de mercado de trabajo a 1er trimestre de 2019](https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_1trim19B489ACCDF9.pdf)
+- [Informe de mercado de trabajo a III trimestre de 2024](https://www.indec.gob.ar/uploads/informesdeprensa/mercado_trabajo_eph_3trim241364F3C2B4.pdf)
   
 - [Sistema de consulta a los cuadros regulares de la EPH contínua](https://www.indec.gob.ar/indec/web/Institucional-Indec-bases_EPH_tabulado_continua)
   
