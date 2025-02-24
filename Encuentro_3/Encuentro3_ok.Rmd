@@ -1,0 +1,1381 @@
+---
+title: "**Manipulación, transformación y procesamiento de datos**"
+subtitle: "**Escuela de Verano de R**"
+author: |
+  **Francisco Favieri**  
+  **Beatriz Soria**
+date: "**Año 2025**"
+output:
+  slidy_presentation:
+    keep_md: true
+  pdf_document:
+    keep_tex: true
+  html_document:
+    toc: true
+  ioslides_presentation: default
+  beamer_presentation: 
+    theme: "Madrid"
+editor_options: 
+  markdown: 
+    wrap: 72
+fontsize: 24pt
+---
+
+```{r, include=FALSE, warning=FALSE}
+#Paquetes para que funcione este coso
+library(tidyverse)
+library(eph)
+```
+
+# Introducción
+
+En esta clase vamos a repasar algunos conceptos clave sobre el uso de
+paquetes en R, centrándonos en el paquete `{tidyverse}`. A lo largo de
+la sesión, abordaremos los siguientes temas:
+
+✅ **Parte 1: ¿Qué es un paquete en R?** Veremos cómo funcionan los
+paquetes y por qué son fundamentales para la programación en R.\
+✅ **Parte 2: Exploración del paquete `{eph}`.** Conoceremos qué ofrece
+este paquete y cómo facilita el trabajo con los datos de la Encuesta
+Permanente de Hogares (EPH).\
+✅ **Parte 3: Primeros comandos de exploración.** Aprenderemos a
+examinar los datos descargados con `{eph}`, incluyendo visualización de
+variables y estructuras.\
+✅ **Parte 4: Introducción a `{tidyverse}`.** Empezaremos a trabajar con
+uno de los paquetes más importantes para la manipulación de datos en R.
+
+La clase tiene una duración de **2 horas y 30 minutos**, con **dos
+recreos de 15 minutos** para que podamos despejarnos y mover las
+piernas.
+
+# Parte 1: ¿Qué es un paquete en R?
+
+Un **paquete** en R es una colección de funciones, datos y documentación
+organizados en un formato estructurado que extiende las capacidades de
+R.
+
+📌 Los paquetes permiten: - Agregar nuevas funciones a R. - Facilitar la
+manipulación y visualización de datos. - Automatizar procesos y mejorar
+la eficiencia en el análisis.
+
+Los paquetes están disponibles en diferentes fuentes: - **CRAN**
+(Comprehensive R Archive Network) es el repositorio oficial de paquetes
+de R. Es una red de servidores donde se almacenan, verifican y
+distribuyen los paquetes de R.
+
+🔹 Más información:\
+📌 Sitio oficial de CRAN: <https://cran.r-project.org>
+
+-   **GitHub**: es una plataforma de desarrollo colaborativo donde los
+    programadores pueden compartir código. En el caso de R, permite
+    descargar paquetes en desarrollo que aún no han sido subidos a CRAN.
+
+-   **Paquetes locales**: Paquetes creados y almacenados en tu
+    computadora.
+
+# Instalación y carga de paquetes en R
+
+Para instalar un paquete desde CRAN, usamos:
+
+```{r 1, include=FALSE}
+# Configurar CRAN correctamente para evitar errores en knitr
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+```
+
+```{r 2 , message=FALSE, warning=FALSE}
+install.packages("eph")  # Instala el paquete eph
+```
+
+Para instalar un paquete desde GitHub:
+
+```{r 3, message=FALSE, warning=FALSE}
+if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
+library(devtools)
+install_github("tidyverse/ggplot2")  # Instala ggplot2 desde GitHub
+```
+
+Para cargar un paquete ya instalado:
+
+```{r 4, message=FALSE, warning=FALSE}
+library(tidyverse)  # Carga ggplot2 en la sesión de R
+```
+
+Para ver los paquetes instalados en tu sistema:
+
+```{r 5}
+installed.packages()[,1]  # Muestra una lista de paquetes instalados
+```
+
+# Parte 2: ¿Qué es el paquete `{eph}`?
+
+El paquete `{eph}` es una herramienta en R diseñada para facilitar el
+acceso y manipulación de los microdatos de la **Encuesta Permanente de
+Hogares (EPH)** del **INDEC** en Argentina. Permite descargar las bases
+de datos directamente desde la web del INDEC sin necesidad de bajarlas
+manualmente, y simplifica su análisis dentro del entorno de R.
+
+**Más información y documentación oficial:** [CRAN -
+eph](https://cran.r-project.org/web/packages/eph/eph.pdf)
+
+## Instalación y carga de `{eph}`
+
+``` r
+install.packages("eph")  # Instala el paquete eph
+library(eph)  # Carga el paquete eph
+```
+
+## Funciones principales de `{eph}`
+
+El paquete cuenta con varias funciones clave. Aquí están las más
+importantes:
+
+| **Función**           | **¿Qué hace?**                                          |
+|-------------------------------------------|-----------------------------|
+| `get_microdata()`     | Descarga datos de la EPH directamente desde el INDEC.   |
+| `organize_labels()`   | Reemplaza códigos numéricos por etiquetas descriptivas. |
+| `categorize_area()`   | Clasifica regiones geográficas dentro de la EPH.        |
+| `calculate_poverty()` | Calcula tasas de pobreza e indigencia.                  |
+
+# Ejemplo de uso: Descargar datos de la EPH
+
+Si queremos obtener los datos individuales del **4to trimestre de
+2023**, usamos:
+
+```{r 6}
+library(eph)  # Asegurar que el paquete está cargado
+
+eph_data <- get_microdata(year = 2023, trimester = 4, type = "individual")
+
+# Ver primeras filas de la base
+dim(eph_data)
+head(eph_data)
+```
+
+Para ver qué variables tiene la base:
+
+```{r 7}
+colnames(eph_data)  # Nombres de las variables
+str(eph_data)       # Estructura de la base
+```
+
+# Aplicando `organize_labels()` para etiquetas descriptivas
+
+Los datos descargados contienen variables con códigos numéricos
+difíciles de interpretar. Para hacerlos más legibles, utilizamos
+`organize_labels()`:
+
+```{r 8}
+# Convertir códigos numéricos en etiquetas descriptivas
+eph_data_labeled <- organize_labels(eph_data)
+
+# Comparar antes y después
+head(eph_data[c("CH04", "ESTADO", "CAT_OCUP")])  # Antes de aplicar organize_labels()
+head(eph_data_labeled[c("CH04", "ESTADO", "CAT_OCUP")])  # Después de aplicar organize_labels()
+```
+
+## Explicación:
+
+-   `CH04`: Representa el sexo del encuestado (antes: `1, 2`, después:
+    `"Varón"`, `"Mujer"`).
+-   `ESTADO`: Estado de actividad laboral (antes: `1, 2, 3`, después:
+    `"Ocupado"`, `"Desocupado"`, `"Inactivo"`).
+-   `CAT_OCUP`: Categoría ocupacional (antes: `1, 2, 3, 4`, después:
+    `"Patrón"`, `"Cuenta Propia"`, `"Asalariado"`,
+    `"Trabajador Familiar"`).
+
+## Para obtener un resumen de las etiquetas aplicadas:
+
+```{r 9}
+summary(eph_data_labeled)
+```
+
+**Beneficio:** Facilita la interpretación de los datos sin necesidad de
+consultar los códigos numéricos en el manual del INDEC.
+
+# **Ejemplo de uso: Descargar datos de hogares de la EPH**
+
+Si queremos obtener los datos de hogares del **4to trimestre de 2023**,
+usamos:
+
+```{r 10}
+library(eph)  # Asegurar que el paquete está cargado
+
+eph_data_hogar <- get_microdata(year = 2023, trimester = 4, type = "hogar")
+
+# Ver primeras filas de la base
+dim(eph_data_hogar)
+head(eph_data_hogar)
+```
+
+## Tipos de bases disponibles en `{eph}`
+
+Cuando usás `get_microdata()`, podés elegir entre diferentes tipos de
+bases de datos:
+
+| **Tipo de base** | **Descripción**                       |
+|------------------|---------------------------------------|
+| "individual"     | Datos de cada persona encuestada.     |
+| "hogar"          | Información de cada hogar encuestado. |
+| "vivienda"       | Datos de las viviendas encuestadas.   |
+
+# Parte 3: ¿Qué es el paquete `{tidyverse}`?
+
+El paquete `{tidyverse}` es una colección de paquetes en R diseñada para
+facilitar el procesamiento, manipulación, y visualización de datos de
+manera eficiente y legible. Fue creado por Hadley Wickham y su equipo en
+RStudio, y agrupa una serie de paquetes que comparten una filosofía
+basada en:
+
+-   **Sintaxis coherente y funcional**\
+-   **Principios de "tidy data"** (datos organizados en un formato
+    estructurado)\
+-   **Uso de la tubería (`%>%`)** para encadenar funciones de manera
+    clara\
+-   **El tidyverse facilita el análisis de datos**, eliminando código
+    redundante y promoviendo un flujo de trabajo intuitivo para quienes
+    trabajan con ciencias sociales computacionales.
+
+**Más información y documentación oficial:** [Tidyverse - R for Data
+Science](https://www.tidyverse.org/)
+
+## Instalación y carga de `{tidyverse}`
+
+```{r 11, message=FALSE, warning=FALSE}
+install.packages("tidyverse")  # Instala el paquete tidyverse
+library(tidyverse)  # Carga todos los paquetes del tidyverse
+```
+
+# Paquetes incluidos en `{tidyverse}`
+
+Si ustedes instalan tidyverse entonces no tienen que estar instalando
+todos estos paquetes uno por uno.
+
+| **Paquete**   | **Funcionalidad principal**            | **Funciones clave**                                                          |
+|------------------|--------------------------|-----------------------------|
+| **dplyr**     | Manipulación y transformación de datos | `filter()`, `select()`, `mutate()`, `group_by()`, `summarise()`, `arrange()` |
+| **tidyr**     | Organización y estructuración de datos | `pivot_longer()`, `pivot_wider()`, `separate()`, `unite()`                   |
+| **readr**     | Importación de archivos                | `read_csv()`, `read_delim()`, `write_csv()`                                  |
+| **purrr**     | Programación funcional y listas        | `map()`, `map_df()`, `map_chr()`                                             |
+| **tibble**    | Tablas mejoradas en R                  | `as_tibble()`, `tibble()`                                                    |
+| **stringr**   | Manipulación de texto y caracteres     | `str_detect()`, `str_replace()`, `str_to_lower()`                            |
+| **forcats**   | Manejo avanzado de factores            | `fct_reorder()`, `fct_lump()`, `fct_relevel()`                               |
+| **lubridate** | Manipulación de fechas y tiempos       | `ymd()`, `mdy()`, `hms()`, `floor_date()`                                    |
+
+En este taller, utilizaremos tidyverse en combinación con el paquete eph
+para analizar bases de la Encuesta Permanente de Hogares (EPH), lo que
+nos permitirá realizar transformaciones, cálculos y resúmenes sobre
+variables clave del mercado de trabajo.
+
+# `dplyr`: Manipulación de datos en R
+
+El paquete **dplyr** de **tidyverse** es una herramienta fundamental
+para la manipulación eficiente de datos en R. Permite realizar
+operaciones como filtrado, selección, transformación, agrupación y
+resumen de datos de manera intuitiva.
+
+En este documento, aplicamos todas sus funciones clave sobre la
+**Encuesta Permanente de Hogares (EPH)** utilizando el paquete `eph`.
+
+```{r 12, include=FALSE}
+# Instalar paquetes si es necesario
+if (!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
+if (!requireNamespace("eph", quietly = TRUE)) install.packages("eph")
+
+# Cargar paquetes
+library(tidyverse)
+library(eph)
+```
+
+## Cargar base de datos
+
+```{r 13}
+# Obtener datos de la EPH (trimestre 3 de 2023)
+eph_data <- get_microdata(year = 2023, trimester = 3, type = "individual")
+head(eph_data)
+```
+
+# Funciones clave de `dplyr`
+
+-   🔍 **`filter()`** → Filtra filas según condiciones específicas.
+    -   Ejemplo: `filter(data, edad > 30)`
+-   📑 **`select()`** → Selecciona columnas específicas de un dataframe.
+    -   Ejemplo: `select(data, nombre, salario)`
+-   ✏️ **`mutate()`** → Crea o modifica columnas dentro del dataframe.
+    -   Ejemplo: `mutate(data, salario_anual = salario * 12)`
+-   📊 **`group_by()`** → Agrupa datos según una o varias variables.
+    -   Ejemplo: `group_by(data, departamento)`
+-   🧮 **`summarise()`** → Resume los datos, calculando estadísticas por
+    grupo.
+    -   Ejemplo:
+        `summarise(data, salario_promedio = mean(salario, na.rm = TRUE))`
+-   🔼 **`arrange()`** → Ordena los datos en orden ascendente o
+    descendente.
+    -   Ejemplo: `arrange(data, desc(salario))`
+-   🔢 **`count()`** → Cuenta la cantidad de observaciones por grupo.
+    -   Ejemplo: `count(data, departamento)`
+-   🏷️ **`rename()`** → Cambia el nombre de una columna.
+    -   Ejemplo: `rename(data, sueldo = salario)`
+-   🚮 **`distinct()`** → Elimina duplicados y devuelve solo valores
+    únicos.
+    -   Ejemplo: `distinct(data, nombre)`
+-   🎯 **`slice()`** → Selecciona filas específicas según su posición.
+    -   Ejemplo: `slice(data, 1:10)`
+-   📥 **`pull()`** → Extrae una sola columna en forma de vector.
+    -   Ejemplo: `pull(data, nombre)`
+-   🔀 **`relocate()`** → Cambia el orden de las columnas dentro del
+    dataframe.
+    -   Ejemplo: `relocate(data, salario, .before = nombre)`
+-   🚧 **`transmute()`** → Crea nuevas columnas pero elimina las
+    originales.
+    -   Ejemplo: `transmute(data, salario_anual = salario * 12)`
+-   📊 **`ggplot2()`** → Grafica toda la movida (lo veremos en otra
+    clase)
+    -   Ejemplo ggplot(data, aes(x = edad, y = salario)) + geom_point())
+
+# **`filter()`**: Filtrar filas en un dataframe
+
+La función **`filter()`** en `dplyr` se usa para **seleccionar filas**
+de un dataframe que cumplen con una o varias condiciones. Es
+especialmente útil en el análisis de datos de la **Encuesta Permanente
+de Hogares (EPH)**.
+
+## **Características clave**
+
+-   Permite aplicar **condiciones lógicas** (`>`, `<`, `==`, `!=`, `>=`,
+    `<=`).
+-   Se pueden combinar **múltiples condiciones** con `&` (AND) o `|`
+    (OR).
+-   Filtra filas **sin modificar las columnas existentes**.
+-   Compatible con **`group_by()`** para aplicar filtros dentro de
+    grupos. (esto es dios)
+
+### **Ejemplos prácticos con el paquete `EPH`**
+
+# **Ejemplo 1: Filtrar personas mayores de 30**
+
+```{r filter1}
+#Gran San Juan
+eph_gsj_ocupados <- eph_data %>%
+  filter(AGLOMERADO == 27, ESTADO == 1, CH06 >= 25, CH06 <= 50)
+dim(eph_gsj_ocupados)
+
+#Gran Mendoza
+eph_gmza_ocupados <- eph_data %>%
+  filter(AGLOMERADO == 10, ESTADO == 1, CH06 >= 25, CH06 <= 50)
+dim(eph_gmza_ocupados)
+```
+
+-   CH06 es la variable que representa la edad en la EPH.
+-   Se seleccionan solo las filas donde CH06 \> 30 (personas mayores de
+    30 años).
+-   ¿Estaría copado verlo en tablas no? wait for it
+
+# **Ejemplo 2 Filtrar con múltiples condiciones (AND &)**
+
+```{r filter2}
+#Gran San Juan
+eph_gsj_ocupadosalto <- eph_data %>%
+  filter(AGLOMERADO == 27, ESTADO == 1, CH06 >= 30 & P21 > 40000) 
+dim(eph_gsj_ocupadosalto)
+
+#Gran Mendoza
+eph_gmza_ocupadosalto <- eph_data %>%
+  filter(AGLOMERADO == 10, ESTADO == 1, CH06 >= 30& P21 > 40000)
+dim(eph_gmza_ocupadosalto)
+```
+
+-   AGLOMREADO 27 y 10 (GSJ y Mendoza respectivamente)
+-   ESTADO ==1 (Corresponde a ocupados)
+-   CH06 \>= 30 (personas mayores de 30 años)
+-   P21 \> 40000 (Ingresos mayores a 40k)
+-   No muestro tablas pues no conocemos las funciones!
+
+# **Ejemplo 3: Filtrar con múltiples condiciones (OR \|)**
+
+```{r filter3}
+#Gran San Juan
+eph_gsj_ocupadosaltor <- eph_data %>%
+  filter(AGLOMERADO == 27, ESTADO == 1, CH06 >= 30 | P21 > 40000) 
+dim(eph_gsj_ocupadosaltor)
+
+#Gran Mendoza
+eph_gmza_ocupadosaltor <- eph_data %>%
+  filter(AGLOMERADO == 10, ESTADO == 1, CH06 >= 30 | P21 > 40000)
+dim(eph_gmza_ocupadosaltor)
+```
+
+-   Aca el filtro es para pesonas mayores a 30 o que perciban más de 40k
+
+# **Ejemplo 4: Filtrar valores específicos con %in%**
+
+```{r filter4}
+#Gran San Juan
+eph_gsj_ocupadosaltorin <- eph_data %>%
+  filter(AGLOMERADO == 27, ESTADO %in% c(1, 2), CH06 >= 30) 
+dim(eph_gsj_ocupadosaltorin)
+
+#Gran Mendoza
+eph_gmza_ocupadosaltorin <- eph_data %>%
+  filter(AGLOMERADO == 10, ESTADO %in% c(1, 2), CH06 >= 30)
+dim(eph_gmza_ocupadosaltorin)
+```
+
+-   En este caso se seleccionan personas ocupadas o desocupadas mayores
+    a 30 años, comando ideal, por ejemplo, para calcular la PEA
+
+# **`select()`: Selección de columnas en un dataframe**
+
+La función **`select()`** en `dplyr` se usa para **elegir columnas
+específicas** de un dataframe. Es útil para **reducir la cantidad de
+variables** y enfocarse en las más relevantes para el análisis.
+
+## **Características clave**
+
+-   Permite **seleccionar columnas** por su nombre.
+-   Se pueden **excluir columnas** usando `-` antes del nombre.
+-   Se pueden usar **rangos de columnas** o patrones con
+    `starts_with()`, `ends_with()`, `contains()`.
+-   No modifica los datos, solo selecciona variables relevantes.
+
+## **Ejemplos prácticos con el paquete `EPH`**
+
+# **Ejemplo 1. Seleccionar columnas específicas**
+
+```{r select1}
+eph_reducida <- eph_data %>%
+  select(CH04, CH06, P47T, PP3E_TOT) %>%
+  rename(
+    sexo = CH04,
+    edad = CH06,
+    ingreso_total = P47T,
+    horas_trabajadas = PP3E_TOT
+  )
+head(eph_reducida)
+```
+
+Se seleccionan las variables: - **CH03**: Relación de parentesco con
+jefe/a de hogar\
+- **CH04**: Sexo\
+- **CH06**: Edad\
+- **CAT_OCUP**: Categoría ocupacional\
+- **P21**: Ingreso total individual
+
+# **Ejemplo 2. Excluir columnas específicas**
+
+```{r select2}
+eph_dataS <- select(eph_data, -P47T)
+dim(eph_data)
+dim(eph_dataS)
+```
+
+Eliminamos P47T porque nos cae mal
+
+# **Ejemplo 3 Seleccionar un rango de columnas**
+
+```{r select3}
+eph_rango <- select(eph_data, CH04:CH06)
+head(eph_rango)
+```
+
+Seleccionamos variables desde CH04 (edad) hasta CH06 (sexo)
+
+# **Ejemplo 4 Seleccionar columnas que empiezan con un prefijo**
+
+```{r select4}
+eph_ch <- select(eph_data, starts_with("CH"))
+head(eph_ch)
+```
+
+Se seleccionan todas las columnas cuyos nombres comienzan con "CH"
+(variables de características del hogar).
+
+# **Ejemplo 5 Seleccionar columnas que contienen una palabra clave**
+
+```{r select5}
+eph_ocup <- select(eph_data, contains("COD"))
+head(eph_ocup)
+```
+
+Se seleccionan todas las columnas que contienen "COD", por ejemplo
+PP04B_COD que muestra código ocupacional donde cada caracter implica una
+característica de la ocupación
+
+# **Ejemplo 6: Renombrar columnas al seleccionarlas**
+
+```{r select6}
+eph_ren <- select(eph_data, edad= CH06, sexo = CH04)
+head(eph_ren)
+```
+
+Ahora las columnas tienen nombres más descriptivos:
+
+-   **CH06** → `edad`\
+-   **CH04** → `sexo`\
+-   **P21** → `ingresos`
+
+# **`mutate()`: Crear y modificar columnas en un dataframe**
+
+La función **`mutate()`** en `dplyr` permite **crear nuevas variables**
+o **modificar las existentes** en un dataframe. Es una herramienta clave
+para transformar datos en la **Encuesta Permanente de Hogares (EPH)**.
+
+## **Características clave**
+
+-   Crea **nuevas columnas** basadas en cálculos o condiciones.
+-   Modifica **variables existentes** sin necesidad de crear un nuevo
+    dataframe.
+-   Permite usar **funciones matemáticas y lógicas** para transformar
+    datos.
+-   Compatible con **`group_by()`** para realizar cálculos dentro de
+    grupos.
+
+## 📊 \*\*Ejemplos prácticos con el paquete `EPH`
+
+# **Ejemplo 1: Crear una nueva variable de ingresos anuales**
+
+```{r mutate1}
+eph_data <- eph_data %>%
+  mutate(ingreso_anual = P47T * 12)
+head(select(eph_data, P21, ingreso_anual))
+```
+
+Se crea la variable ingreso_anual, multiplicando el ingreso mensual
+(P21) por 12.
+
+# **Ejemplo 2: Crear variable categórica de edad**
+
+```{r mutate2}
+# Crear una nueva columna que clasifica a las personas en jóvenes y adultos
+
+eph_data <- mutate(eph_data, grupo_edad = ifelse(CH06 < 30, "Joven", "Adulto"))
+head(select(eph_data, CH06, grupo_edad))
+```
+
+Se genera la variable grupo_edad, asignando "Joven" a personas menores
+de 30 años y "Adulto" al resto.
+
+# **Ejemplo 3: Modificar una variable existente (transformar ingresos a miles de pesos)**
+
+```{r mutate3}
+# Crear una nueva columna que clasifica a las personas en jóvenes y adultos
+
+eph_data <- mutate(eph_data, P21=P21/1000)
+head(select(eph_data, P21))
+```
+
+Se transforma P21 para que el ingreso quede expresado en miles de pesos.
+
+# **Ejemplo 4: Calcular el ingreso per cápita del hogar**
+
+```{r mutate4}
+# Crear una variable de ingreso per cápita dividiendo el ingreso total del hogar por la cantidad de miembros
+
+eph_data <- mutate(eph_data, ingreso_per_ocupacion = (ITF / PP03D))
+
+head(select(eph_data, ITF, PP03D, ingreso_per_ocupacion))
+```
+
+Se transforma P21 para que el ingreso quede dividido por la cantidad de
+ocupaciones.
+
+# **Ejemplo 5: Crear una nueva variable con case_when()**
+
+```{r mutate5}
+# Crear una variable de categoría socioeconómica en base al ingreso
+eph_data <- mutate(eph_data, categoria_ingreso = case_when(
+  P21 < 50000 ~ "Bajo",
+  P21 >= 50000 & P21 < 150000 ~ "Medio",
+  P21 >= 150000 ~ "Alto"
+))
+
+head(select(eph_data, P21, categoria_ingreso))
+```
+
+Se usa `case_when()` para asignar categorías de ingreso: - **Menos de
+50,000** → `"Bajo"`\
+- **Entre 50,000 y 150,000** → `"Medio"`\
+- **Más de 150,000** → `"Alto"`
+
+# **`arrange()`: Ordenar filas en un dataframe**
+
+La función **`arrange()`** en `dplyr` permite **ordenar un dataframe**
+en función de una o varias columnas.\
+Es especialmente útil en el análisis de la **Encuesta Permanente de
+Hogares (EPH)** para visualizar los datos en orden creciente o
+decreciente.
+
+## **Características clave**
+
+-   Ordena los datos **en orden ascendente** por defecto.
+-   Para **orden descendente**, se usa `desc()`.
+-   Se pueden ordenar los datos por **múltiples columnas**.
+-   Compatible con **`group_by()`** para ordenar dentro de grupos.
+
+## **Ejemplos prácticos con el paquete `EPH`**
+
+# **Ejemplo 1: Ordenar por edad en orden ascendente**
+
+```{r arrange1}
+# Ordenar las filas según la edad en orden ascendente
+eph_data <- arrange(eph_data, CH06)
+
+# Ver las primeras filas
+head(select(eph_data, CH03, CH04, CH06))
+```
+
+Se ordena el dataframe por la variable CH06 (edad) en orden creciente.
+
+# **Ejemplo 2: Ordenar por ingresos en orden descendente**
+
+```{r arrange2}
+# Ordenar las filas según la edad en orden ascendente
+eph_datao <- arrange(eph_data, desc(CH06))
+
+# Ver las primeras filas
+head(select(eph_datao, CH03, CH04, CH06))
+```
+
+Se ordena el dataframe por la variable CH06 (edad); desc(CH06) de mayor
+a menor.
+
+# **Ejemplo 4: ordenar por categoría ocupacional y dentro de cada categoría por ingresos**
+
+```{r arrange3}
+# Ordenar las filas según la edad en orden ascendente
+eph_dataord <- arrange(eph_data, CAT_OCUP, desc(P21))
+
+# Ver las primeras filas
+head(select(eph_dataord, CH03, CH04, CH06))
+
+```
+
+Se ordena el dataframe por la variable CH06 (edad); desc(CH06) de mayor
+a menor.
+
+# **`group_by()`: Agrupar datos en un dataframe**
+
+La función **`group_by()`** en `dplyr` permite **agrupar filas según una
+o varias variables**, facilitando el cálculo de estadísticas dentro de
+cada grupo.\
+Es clave para segmentar datos en la **Encuesta Permanente de Hogares
+(EPH)** y analizar diferentes categorías poblacionales.
+
+## **Características clave**
+
+-   Agrupa los datos **sin modificarlos** directamente.
+-   Se usa en combinación con **`summarise()`** para calcular
+    estadísticas dentro de cada grupo.
+-   Se pueden agrupar los datos por **una o más variables**.
+-   Compatible con otras funciones de `dplyr`, como `mutate()` y
+    `arrange()`.
+
+# **Ejemplo 1: Agrupar por género y calcular el salario promedio**
+
+```{r groupby1}
+data_gen <- eph_data %>%
+  group_by(CH04) %>%
+  summarise(salario_promedio = mean(P21, na.rm = TRUE))
+
+# Ver resultado
+print(data_gen)
+```
+
+# **Ejemplo 2: Agrupar por género y contar cuántas personas hay en cada grupo**
+
+```{r groupby2}
+data_genc <- eph_data %>%
+  group_by(CH04) %>%
+  summarise(cantidad = n())
+
+# Ver resultado
+print(data_genc)
+```
+
+Contamos cuántas personas hay en cada categoría (1 = varón, 2 = mujer).
+
+# **Ejemplo 3: Agrupar por región y calcular el ingreso per cápita promedio**
+
+```{r groupby3}
+data_reg <- eph_data %>%
+  group_by(AGLOMERADO) %>%
+  summarise(promedio_IPCF = mean(IPCF, na.rm = TRUE))
+
+# Ver resultado
+print(data_reg)
+```
+
+Contamos cuántas personas hay en cada categoría (1 = varón, 2 = mujer).
+
+# **Ejemplo 3: Agrupar por región y calcular el ingreso per cápita promedio**
+
+```{r groupby4}
+data_reg <- eph_data %>%
+  group_by(AGLOMERADO) %>%
+  summarise(promedio_IPCF = mean(IPCF, na.rm = TRUE))
+
+# Ver resultado
+print(data_reg)
+```
+
+Se cuenta cuántas personas hay en cada categoría (1 = varón, 2 = mujer).
+
+# **`summarise()`: Calcular estadísticas por grupo en un dataframe**
+
+La función **`summarise()`** en `dplyr` permite **resumir datos**
+calculando estadísticas dentro de cada grupo definido con `group_by()`.\
+Es esencial para obtener promedios, medianas, sumas y otros indicadores
+clave en la **Encuesta Permanente de Hogares (EPH)**.
+
+## **Características clave**
+
+-   Se usa con **`group_by()`** para calcular estadísticas por grupo.
+-   Puede generar **varias estadísticas en una misma operación**.
+-   Se pueden usar funciones como **`mean()`**, **`median()`**,
+    **`sum()`**, **`min()`**, **`max()`**, entre otras.
+-   Permite incluir múltiples variables resumen.
+
+## **Ejemplos prácticos con el paquete `EPH`**
+
+# **Ejemplo 1: Calcular el salario promedio por categoría ocupacional**
+
+```{r sum1}
+data_summarise <- eph_data %>%
+  group_by(CAT_OCUP) %>%
+  summarise(salario_promedio = mean(P21, na.rm = TRUE))
+
+# Ver resultado
+print(data_summarise)
+```
+
+Se agrupan los datos según categoría ocupacional (CAT_OCUP) y se calcula
+el salario promedio (P21).
+
+# **Ejemplo 2: Calcular la mediana de ingresos y el tamaño de cada grupo**
+
+```{r sum2}
+# Aca vamos a agregar otras cositas porque los ejemplos estan muy chotos.
+## 1. Excluir valores perdidos y categorías específicas
+data_filtered <- eph_data %>%
+  filter(!is.na(P21), #Sacamos los datos perdidos (is.na)
+         CAT_OCUP %in% c(1, 2, 3)) #Les decimos que nos quedamos solo con los valores 1, 2 y 3 de cat_ocup
+
+# Calcular la mediana de ingresos y el total de personas ponderado por FACTOR_EXP
+
+data_summarise <- data_filtered %>%
+  group_by(CAT_OCUP) %>%
+  summarise(
+    mediana_ingreso = median(rep(P21, PONDIIO), na.rm = TRUE),
+    total_personas = sum(PONDIIO, na.rm = TRUE)
+  ) %>%
+  mutate(CAT_OCUP = recode(CAT_OCUP, `1` = "Patron", `2` = "Cuentapropia", `3` = "Obrero"))
+
+# Ver resultado
+print(data_summarise)
+```
+
+Se agrupan los datos según categoría ocupacional (CAT_OCUP) y se calcula
+el salario promedio (P21).
+
+# **Ejemplo 3: Calcular el ingreso promedio y la edad media por aglomerado**
+
+```{r sum3}
+# Calcular el ingreso y la edad promedio por aglomerado
+data_summarise <- eph_data %>%
+  group_by(AGLOMERADO) %>%
+  summarise(
+    ingreso_promedio = mean(P21, na.rm = TRUE),
+    edad_promedio = mean(CH06, na.rm = TRUE)
+  )
+
+# Ver resultado
+print(data_summarise)
+```
+
+Se calcula el ingreso promedio (P21) y la edad promedio (CH06) en cada
+aglomerado (AGLOMERADO).
+
+# **Ejemplo 4: Calcular el porcentaje de asalariados registrados y no registrados**
+
+```{r sum4}
+# Calcular la proporción de asalariados registrados y no registrados
+mt1 <- eph_data %>% 
+  filter(AGLOMERADO == 27) %>% 
+  summarise(
+    pob           = sum(PONDERA),
+    PEA           = sum(PONDERA[ESTADO %in% c(1, 2)]),
+    ocup          = sum(PONDERA[ESTADO == 1]),
+    desocup       = sum(PONDERA[ESTADO == 2]))%>% 
+  data.frame() %>% 
+  setNames(c("Poblacion Total", "PEA", "Población Ocupada", "Población Desocupada")) %>% 
+  gather(key = "Variable", value = "Valor")
+
+print(mt1)
+```
+
+Se calcula la cantidad de población total, población económicamente
+activa, población ocupada y desocupada en el aglomerado 27 a partir de
+la variable ESTADO.
+
+# **`count()`: Contar observaciones en un grupo**
+
+La función **`count()`** en `dplyr` permite **contar el número de
+filas** en cada grupo de una variable.\
+Es útil para conocer la distribución de categorías en la **Encuesta
+Permanente de Hogares (EPH)**.
+
+## **Características clave**
+
+-   Cuenta la cantidad de filas dentro de cada categoría de una
+    variable.
+-   Puede utilizarse con **`sort = TRUE`** para ordenar los resultados
+    de mayor a menor.
+-   Puede combinarse con **`group_by()`** y **`summarise()`** para mayor
+    flexibilidad.
+
+# **Ejemplo 1: Contar la cantidad de personas por categoría ocupacional**
+
+```{r count1}
+conteo_ocupacional <- eph_data %>% count(CAT_OCUP)
+print(conteo_ocupacional)
+```
+
+-   Se cuenta la cantidad de personas en cada categoría ocupacional
+    (CAT_OCUP).
+-   Se usa sort = TRUE para ordenar los resultados de mayor a menor.
+
+# **`rename()`: Cambiar el nombre de columnas en un dataframe**
+
+La función **`rename()`** en `dplyr` permite **cambiar el nombre de una
+o varias columnas** en un dataframe.\
+Es útil para hacer que los nombres de las variables sean más claros en
+la **EPH**.
+
+## Características clave
+
+-   Permite renombrar una o varias columnas al mismo tiempo.
+-   Mantiene todas las columnas del dataframe sin eliminarlas ni
+    modificarlas.
+-   Se usa con la sintaxis `rename(nuevo_nombre = nombre_original)`.
+
+# **Ejemplo 1: Renombrar variables en la EPH**
+
+```{r filter-summarise1}
+data_renamed <- eph_data %>%
+  rename(
+    edad = CH06,
+    sexo = CH04,
+    ingreso_total = P21
+  )
+
+head(data_renamed)
+```
+
+#Para cerrar esta parte. Vamos con las funciones que quedan, que no
+usamos mucho pero están ahí
+
+# **`distinct()`: Eliminar duplicados**
+
+Elimina filas duplicadas basadas en una o varias columnas.
+
+```{r disct}
+# Eliminar duplicados en la combinación de sexo y edad
+eph_data_distinct <- eph_data %>%
+  distinct(CH04, CH06, .keep_all = TRUE)
+
+head(eph_data_distinct)
+```
+
+Se eliminan registros duplicados con la misma combinación de sexo (CH04)
+y edad (CH06), manteniendo las demás columnas.
+
+# **`slice()`: Seleccionar filas por posición**
+
+Extrae filas específicas del dataframe según su posición.
+
+```{r slice2}
+eph_data_slice <- eph_data %>%
+  slice(1:10)
+
+head(eph_data_slice)
+```
+
+Extrae las primeras 10 filas del dataframe.
+
+# **`pull()`: Extraer una columna como vector**
+
+Devuelve una única columna en formato vector, útil para cálculos o
+gráficos.
+
+```{r pull3}
+ingresos_vector <- eph_data %>%
+  pull(P21)
+
+head(ingresos_vector)
+```
+
+Extrae la columna P21 (ingreso total individual) como vector.
+
+# **`relocate()`: Reordenar columnas**
+
+Cambia la posición de columnas dentro del dataframe.
+
+```{r relco4}
+# Mover la columna de ingresos al inicio
+eph_data_relocate <- eph_data %>%
+  relocate(P21, .before = everything())
+
+head(eph_data_relocate)
+```
+
+Mueve P21 (ingreso total individual) al inicio del dataframe.
+
+# **`transmute()`: Crear nuevas columnas y eliminar las originales**
+
+Cambia la posición de columnas dentro del dataframe.
+
+```{r trans5}
+# Crear ingreso anual y eliminar P21
+eph_data_transmute <- eph_data %>%
+  transmute(ingreso_anual = P21 * 12)
+
+head(eph_data_transmute)
+```
+
+Se crea ingreso_anual (multiplicando P21 por 12) y se elimina P21.
+
+# **Ejercicio Integrador**
+
+Supongamos que queremos:
+
+1.  Filtrar personas ocupadas en Gran San Juan mayores de 25 años.
+2.  Seleccionar variables clave y calcular el ingreso por hora.
+3.  Agrupar por sexo y calcular el promedio y mediana de ingreso.
+4.  Ordenar el resultado por promedio de ingreso.
+
+```{r ejercicio-integrador6}
+resumen_final <- eph_data %>%
+  filter(AGLOMERADO == 27, ESTADO == 1, CH06 > 25) %>%
+  select(CH04, CH06, P47T, PP3E_TOT) %>%
+  rename(
+    sexo = CH04,
+    edad = CH06,
+    ingreso_total = P47T,
+    horas_trabajadas = PP3E_TOT
+  ) %>%
+  mutate(ingreso_hora = ingreso_total / horas_trabajadas) %>%
+  group_by(sexo) %>%
+  summarise(
+    promedio_ingreso = mean(ingreso_total, na.rm = TRUE),
+    mediana_ingreso = median(ingreso_total, na.rm = TRUE)
+  ) %>%
+  arrange(desc(promedio_ingreso))
+
+print(resumen_final)
+```
+
+# Entonces dplyr
+
+El paquete **dplyr** simplifica la manipulación de datos en **R**,
+especialmente cuando trabajamos con bases complejas como la **EPH**.
+Utilizando funciones como `filter()`, `select()`, `mutate()`,
+`group_by()`, y `summarise()`, podemos realizar análisis avanzados de
+manera eficiente y legible.
+
+# Volvemos a los paquetes incluidos en `{tidyverse}`
+
+Si ustedes instalan tidyverse entonces no tienen que estar instalando
+todos estos paquetes uno por uno.
+
+| **Paquete**   | **Funcionalidad principal**            | **Funciones clave**                                                          |
+|------------------|--------------------------|-----------------------------|
+| **dplyr**     | Manipulación y transformación de datos | `filter()`, `select()`, `mutate()`, `group_by()`, `summarise()`, `arrange()` |
+| **tidyr**     | Organización y estructuración de datos | `pivot_longer()`, `pivot_wider()`, `separate()`, `unite()`                   |
+| **readr**     | Importación de archivos                | `read_csv()`, `read_delim()`, `write_csv()`                                  |
+| **purrr**     | Programación funcional y listas        | `map()`, `map_df()`, `map_chr()`                                             |
+| **tibble**    | Tablas mejoradas en R                  | `as_tibble()`, `tibble()`                                                    |
+| **stringr**   | Manipulación de texto y caracteres     | `str_detect()`, `str_replace()`, `str_to_lower()`                            |
+| **forcats**   | Manejo avanzado de factores            | `fct_reorder()`, `fct_lump()`, `fct_relevel()`                               |
+| **lubridate** | Manipulación de fechas y tiempos       | `ymd()`, `mdy()`, `hms()`, `floor_date()`                                    |
+
+En este taller, utilizaremos tidyverse en combinación con el paquete eph
+para analizar bases de la Encuesta Permanente de Hogares (EPH), lo que
+nos permitirá realizar transformaciones, cálculos y resúmenes sobre
+variables clave del mercado de trabajo.
+
+# `tidyr`: Organización y estructuración de datos
+
+El paquete `tidyr` forma parte del ecosistema `tidyverse` y se centra en
+la transformación de datos para que sean **ordenados** ("tidy"). Esto
+implica estructurar los datos de modo que cada columna represente una
+variable, cada fila una observación y cada celda un valor.
+
+## Características principales de `tidyr`
+
+1.  **Transformación de datos a formato ordenado ("tidy data")**
+    -   Cada columna representa una variable.\
+    -   Cada fila es una observación.\
+    -   Cada celda contiene un solo valor.
+2.  **Facilidad para convertir entre formatos ancho y largo**
+    -   Usa `pivot_longer()` para transformar datos de **formato ancho**
+        a **largo**.\
+    -   Usa `pivot_wider()` para transformar datos de **formato largo**
+        a **ancho**.
+3.  **Herramientas para manejar y limpiar datos**
+    -   `drop_na()`: Elimina filas con valores faltantes.\
+    -   `fill()`: Rellena valores `NA` con el dato más cercano.\
+    -   `replace_na()`: Reemplaza valores faltantes con un valor
+        específico.
+4.  **Separación y combinación de columnas**
+    -   `separate()`: Divide una columna en múltiples columnas usando un
+        separador.\
+    -   `unite()`: Une varias columnas en una sola con un delimitador
+        personalizado.
+5.  **Compatibilidad con el ecosistema `tidyverse`**
+    -   Funciona de manera fluida con `dplyr`, `ggplot2`, `readr` y
+        otros paquetes de `tidyverse`.\
+    -   Usa sintaxis basada en tuberías (`%>%` o `|>`).
+6.  **Mejora la eficiencia en la manipulación de datos**
+    -   Permite realizar transformaciones con menos código y de forma
+        más legible.\
+    -   Optimiza la manipulación de bases de datos grandes en R.
+
+## Vamos con los ejemplos
+
+# **Ejemplo 1: `pivot_longer()` - Convertir columnas en filas**
+
+Esta función **transforma datos de formato ancho a formato largo**, útil
+para normalizar bases de datos.
+
+```{r p134}
+# Crear ingreso anual y eliminar P21
+tabla_lon1 <- eph_data %>% 
+  summarise(pob                 = sum(PONDERA),
+            ocup                  = sum(PONDERA[ESTADO == 1]),
+            desocup               = sum(PONDERA[ESTADO == 2]),
+            PEA                       = ocup + desocup,
+            'Tasa de Actividad'               = round(PEA/pob *100, 1),
+            'Tasa de Empleo'                  = round(ocup/pob *100, 1),
+            'Tasa de Desocupación'            = round(desocup/PEA *100, 1))
+
+print (tabla_lon1)
+
+```
+
+Inleible, no?
+
+```{r p1}
+tabla_lon2 <- eph_data %>% 
+  summarise(pob                 = sum(PONDERA),
+            ocup                  = sum(PONDERA[ESTADO == 1]),
+            desocup               = sum(PONDERA[ESTADO == 2]),
+            PEA                       = ocup + desocup,
+            'Tasa de Actividad'               = round(PEA/pob *100, 1),
+            'Tasa de Empleo'                  = round(ocup/pob *100, 1),
+            'Tasa de Desocupación'            = round(desocup/PEA *100, 1))%>%
+  pivot_longer(cols = c(5:7), names_to = "Variable", values_to = "Valor") %>%
+  group_by(Variable) %>%
+  summarise(Valor = first(Valor))
+
+print (tabla_lon2)
+
+```
+
+Ahora si
+
+# **Ejemplo 2: `pivot_wider()` - Convertir columnas en filas**
+
+Convierte datos de formato largo a formato ancho, útil para
+visualización y análisis. Volvemos con la tabla que hicimos recién para
+ver como cambia
+
+```{r p22}
+tabla_wid <- tabla_lon2 %>% 
+  pivot_wider(names_from = "Variable", values_from = "Valor")
+
+print(tabla_wid)
+```
+
+Sirve, por ejemplo, para hacer una tabla donde cada fila sea un
+trimestre
+
+# **Ejemplo 3: `separate()` - Dividir una columna en varias**
+
+Descompone una columna en varias nuevas según un separador.
+
+```{r p2}
+data_sep1 <- tibble(nombre_completo = c("John_García", "Kyuss_Kapo"))
+
+print(data_sep1)
+
+data_sep <- separate(data_sep1, nombre_completo, into = c("nombre", "apellido"), sep = "_")
+
+print(data_sep)
+```
+
+# **Ejemplo 4: `unite()`: Unir varias columnas en una sola**
+
+Hace la operación inversa de `separate()`.
+
+```{r p2342}
+data_unite <- unite(data_sep, "nombre_completo", nombre, apellido, sep = "_")
+
+print(data_unite)
+```
+
+# **Ejemplo 5: `drop_na()`: Eliminar valores faltantes**
+
+Filtra las filas que contienen valores faltantes en una o más columnas.
+
+```{r p543}
+data_na <- tibble(Vacas = 1:3, Terneritos = c(10, NA, 30))
+print(data_na)
+data_clean <- drop_na(data_na)
+print(data_clean)
+```
+
+# **Ejemplo 6: `fill()`: Rellenar valores faltantes con el más cercano**
+
+Rellena los valores `NA` con el valor no faltante más cercano hacia
+arriba o abajo.
+
+```{r p4342}
+data_fill1 <- tibble(Guitarristas = c("Dimebag Darrel", "Tano Marciello", "Jaime Página", "Vladimir Lenin"), Guitarras = c(5, NA, 3, NA))
+print(data_fill1)
+
+data_fill2 <- fill(data_fill1, Guitarras, .direction = "down")
+print(data_fill2)
+```
+
+¿Y como fillea la cuestión acá? los valores faltantes en grupo fueron
+rellenados con el valor inmediatamente anterior.
+
+# Conclusión
+
+El paquete `tidyr` proporciona funciones esenciales para estructurar
+bases de datos de manera ordenada y optimizar su análisis en el
+ecosistema `tidyverse`. Su uso facilita la manipulación de datos en
+proyectos de investigación y análisis de datos socioeconómicos.
+
+# **`readr`**: Organización y estructuración de datos
+
+El paquete **`readr`** del `tidyverse` se usa para **importar y exportar
+datos** en diversos formatos como CSV, TSV y archivos de texto plano. Es
+una alternativa rápida y eficiente en comparación con las funciones base
+de R (`read.csv`, `read.table`).
+
+## **Características clave**
+
+-   Lectura rápida de archivos CSV, TSV y de texto plano.
+-   Soporta codificaciones y delimitadores personalizados.
+-   Convierte automáticamente los tipos de datos.
+-   Compatible con `tibble` para facilitar la manipulación de datos.
+
+### **Ejemplos prácticos con la base `eph_data`**
+
+# **Ejemplo 1: Importar datos desde un CSV**
+
+```{r readr1}
+# Cargar el paquete
+library(readr)
+
+# Importar datos de CBA desde un archivo CSV
+CBA_Regional <- read_csv("CBA Region.csv")
+
+# Mostrar las primeras filas
+head(CBA_Regional)
+```
+
+-   `read_csv()` carga un archivo CSV y lo convierte en un `tibble`.
+-   Identifica automáticamente los tipos de datos de cada columna.
+
+# **Ejemplo 2: Exportar datos a un archivo CSV**
+
+```{r readr2}
+# Guardar un subconjunto de datos en un nuevo archivo CSV
+write_csv(CBA_Regional, "cba_cuyo.csv")
+```
+
+-   `write_csv()` exporta los datos en un formato limpio y sin comillas
+    innecesarias.
+-   Es ideal para compartir datasets procesados.
+
+# **`tibble`**: Organización y estructuración de datos
+
+El paquete **`tibble`** de `tidyverse` es una alternativa moderna a los
+`data.frame` base de R. Mejora la organización y presentación de datos,
+facilitando su manipulación y análisis.
+
+## **Características clave**
+
+-   Imprime datos de forma más **legible** y compacta.
+-   **No convierte** automáticamente caracteres en factores.
+-   Permite definir **nombres de columnas sin restricciones**.
+-   Compatible con **dplyr y otros paquetes del `tidyverse`**.
+
+### **Ejemplos prácticos con la base `eph_data`**
+
+# **Ejemplo 1: Convertir un data.frame en tibble**
+
+```{r tibble1}
+# Cargar el paquete
+library(tibble)
+
+# Convertir eph_data en un tibble
+eph_tibble <- as_tibble(eph_data)
+
+# Ver la estructura
+eph_tibble
+```
+
+-   `as_tibble()` convierte un `data.frame` en un `tibble`.
+-   La impresión es más limpia y muestra solo las primeras filas.
+
+# **Ejemplo 2: Crear un tibble desde cero**
+
+```{r tibble2}
+# Crear un tibble manualmente
+datos_manual <- tibble(
+  ID = c(1, 2, 3),
+  Nombre = c("Juan", "María", "Luis"),
+  Edad = c(25, 30, 40)
+)
+
+# Mostrar el tibble
+datos_manual
+```
+
+-   `tibble()` permite crear tablas de datos directamente.
+-   No fuerza la conversión de tipos de datos.
+
+# **Ejemplo 3: Seleccionar columnas y filas**
+
+```{r tibble3}
+# Filtrar y seleccionar columnas
+eph_filtrado <- eph_tibble %>% 
+  select(CODUSU, CH06, P21) %>%  # Seleccionar columnas
+  filter(CH06 >= 30)              # Filtrar por edad
+
+eph_filtrado
+```
+
+-   Compatible con `dplyr` para manipular datos de forma eficiente.
+-   `select()` elige columnas específicas.
+-   `filter()` aplica condiciones de filtrado.
+
+# **Ejemplo 4: Acceder a columnas con `pull()`**
+
+```{r tibble4}
+# Extraer una columna como vector
+edades <- eph_tibble %>% pull(CH06)
+
+# Ver las primeras edades
+head(edades)
+```
+
+-   `pull()` extrae una columna de un tibble como vector.
+-   Útil para cálculos y visualizaciones rápidas.
+
+## **Conclusión**
+
+El paquete `tibble` mejora la presentación y manipulación de datos en R,
+optimizando su integración con `dplyr` y el ecosistema `tidyverse`. Su
+uso es clave para trabajar con bases de datos como `eph_data` de manera
+más eficiente y clara.
+
+# **`stringr`**: Organización y estructuración de datos
+
+El paquete **`stringr`** de `tidyverse` facilita la manipulación de
+cadenas de texto en R. Proporciona funciones intuitivas, optimizadas y
+compatibles con `tidyverse` para trabajar con datos textuales de manera
+eficiente.
+
+## **Características clave**
+
+-   Funciones consistentes con prefijo `str_`.
+-   Uso de expresiones regulares para búsqueda y reemplazo.
+-   Manejo de caracteres especiales y tildes.
+-   Compatible con `tidyverse` y `dplyr`.
+
+### **Ejemplos prácticos con la base `eph_data`**
+
+# **Ejemplo 1: Convertir texto a minúsculas o mayúsculas**
+
+```{r stringr1}
+# Cargar el paquete
+library(stringr)
+
+#Vemos como está ahora
+head(eph_data$categoria_ingreso)
+
+#Los ponemos en mayusculas
+eph_datagh <- eph_data %>% 
+  mutate(categoria_ingreso = str_to_upper(categoria_ingreso))
+
+#Revisamos
+head(eph_datagh$categoria_ingreso)
+```
+
+-   `str_to_lower()` convierte texto a minúsculas.
+-   `str_to_upper()` convierte a mayúsculas.
+
+# **Ejemplo 2: Extraer parte de una cadena**
+
+```{r stringr2}
+# Extraer los primeros 3 caracteres de una variable
+eph_datastring <- eph_data %>% 
+  mutate(CodigoRecortado = str_sub(CODUSU, 1, 3))
+
+# Ver primeras filas
+head(eph_datastring$CodigoRecortado)
+```
+
+-   `str_sub()` permite extraer partes de una cadena.
+-   Útil para trabajar con códigos o identificadores.
+
+# **Ejemplo 3: Reemplazar texto en una variable**
+
+```{r stringr3}
+# Reemplazar "primario" por "nivel básico"
+eph_datax <- eph_data %>% 
+  mutate(categoria_ingreso = str_replace(categoria_ingreso, "Bajo", "Ultrabajo"))
+
+# Ver primeras filas
+head(eph_datax$categoria_ingreso)
+```
+
+-   `str_replace()` sustituye la primera coincidencia.
+-   `str_replace_all()` reemplaza todas las coincidencias.
+
+# **Ejemplo 4: Detectar la presencia de un patrón**
+
+```{r stringr4}
+# Detectar si la variable NIVEL_ED contiene "universitario"
+eph_dataxd <- eph_datax %>% 
+  mutate(categoria_ingreso = str_detect(categoria_ingreso, "Ultrabajo"))
+
+# Ver distribución de valores
+table(eph_dataxd$categoria_ingreso)
+```
+
+-   `str_detect()` devuelve `TRUE` si el patrón aparece en el texto.
+-   Útil para clasificar datos textuales.
+
+# **Conclusión**
+
+El paquete `stringr` permite trabajar de manera eficiente con datos
+textuales en R, facilitando la manipulación de variables en bases de
+datos como `eph_data`. Su integración con `tidyverse` lo convierte en
+una herramienta fundamental para limpiar y estructurar datos.
+
+# Ahora vamos con la práctica guiada
+
+## Consignas de ejercicio en grupos de 3 personas y para resolver en 15 minutos
+
+1)  Sobre la tabla de la pracitca guiada anterior, quiero saber cuantas
+    personas hasta 29 años hay ocupadas y desocupadas por grupo de edad
+    y sexo
+
+#Cosas a tener en cuenta: ##Tienen que armar un mutate de la variable
+ESTADO para que quede con los valores de ocupado y desocupado; consulten
+el registro de EPH para ver que valores corresponden a cada cosa (para
+la base individual)
